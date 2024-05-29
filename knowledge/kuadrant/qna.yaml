@@ -1,0 +1,15 @@
+created_by: kuadrant
+domain: kubernetes
+seed_examples:
+  - answer: Kuadrant combines Gateway API and Istio-based gateway controllers to enhance application connectivity. It enables platform engineers and application developers to easily connect, secure, and protect their services and infrastructure across multiple clusters with policies for TLS, DNS, application authentication & authorization, and rate limiting. Additionally, Kuadrant offers observability templates to further support infrastructure management.
+    question: What is Kuadrant?
+  - answer: Gateway API is an official Kubernetes project focused on L4 and L7 routing in Kubernetes. This project represents the next generation of Kubernetes Ingress, Load Balancing, and Service Mesh APIs. From the outset, it has been designed to be generic, expressive, and role-oriented.
+    question: What is Gateway API?
+  - answer: Istio extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
+    question: What is Istio?
+task_description: ""
+document:
+  repo: https://github.com/Kuadrant/docs.kuadrant.io
+  commit: 7904f67965558211f331368c566dbda0fd857753
+  patterns:
+    - docs/getting-started*.md
