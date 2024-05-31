@@ -1,15 +1,87 @@
 created_by: kuadrant
 domain: kubernetes
 seed_examples:
-  - answer: Kuadrant combines Gateway API and Istio-based gateway controllers to enhance application connectivity. It enables platform engineers and application developers to easily connect, secure, and protect their services and infrastructure across multiple clusters with policies for TLS, DNS, application authentication & authorization, and rate limiting. Additionally, Kuadrant offers observability templates to further support infrastructure management.
-    question: What is Kuadrant?
-  - answer: Gateway API is an official Kubernetes project focused on L4 and L7 routing in Kubernetes. This project represents the next generation of Kubernetes Ingress, Load Balancing, and Service Mesh APIs. From the outset, it has been designed to be generic, expressive, and role-oriented.
-    question: What is Gateway API?
-  - answer: Istio extends Kubernetes to establish a programmable, application-aware network using the powerful Envoy service proxy. Working with both Kubernetes and traditional workloads, Istio brings standard, universal traffic management, telemetry, and security to complex deployments.
-    question: What is Istio?
+  - answer: The different types of Kuadrant policies are TLSPolicy, DNSPolicy, AuthPolicy and RateLimitPolicy.
+    question: What are the different types of Kuadrant policies?
+  - answer: |
+      apiVersion: kuadrant.io/v1alpha1
+      kind: DNSPolicy
+      metadata:
+        name: simple-dnspolicy
+        namespace: kuadrant-system
+      spec:
+        routingStrategy: simple
+        targetRef:
+          name: api-gateway
+          group: gateway.networking.k8s.io
+          kind: Gateway
+    question: What does an example DNSPolicy look like?
+  - answer: |
+      apiVersion: kuadrant.io/v1alpha1
+      kind: TLSPolicy
+      metadata:
+        name: api-gateway-tls
+        namespace: kuadrant-system
+      spec:
+        targetRef:
+          name: api-gateway
+          group: gateway.networking.k8s.io
+          kind: Gateway
+        issuerRef:
+          group: cert-manager.io
+          kind: ClusterIssuer
+          name: kuadrant-operator-glbc-ca
+    question: What does an example TLSPolicy look like?
+  - answer: |
+      apiVersion: kuadrant.io/v1beta2
+      kind: RateLimitPolicy
+      metadata:
+        name: infra-ratelimit
+        namespace: kuadrant-system
+      spec:
+        targetRef:
+          name: api-gateway
+          group: gateway.networking.k8s.io
+          kind: Gateway
+        limits:
+          "global":
+            rates:
+            - limit: 5
+              duration: 10
+              unit: second
+    question: What does an example RateLimitPolicy look like?
+  - answer: |
+      apiVersion: kuadrant.io/v1beta2
+      kind: AuthPolicy
+      metadata:
+        name: deny-all
+        namespace: kuadrant-system
+      spec:
+        targetRef:
+          group: gateway.networking.k8s.io
+          kind: Gateway
+          name: api-gateway
+        rules:
+          authorization:
+            deny-all:
+              opa:
+                rego: "allow = false"
+          response:
+            unauthorized:
+              headers:
+                "content-type":
+                  value: application/json
+              body:
+                value: |
+                  {
+                    "error": "Forbidden",
+                    "message": "Access denied by default by the gateway operator. If you are the administrator of the service, create a specific auth policy for the route."
+                  }
+    question: What does an example AuthPolicy look like?
 task_description: ""
 document:
-  repo: https://github.com/Kuadrant/docs.kuadrant.io
-  commit: 7904f67965558211f331368c566dbda0fd857753
+  repo: https://github.com/Kuadrant/kuadrant-operator
+  commit: 0e2a9d6fe1dbce7305ce552c945442dbcad9df3a
   patterns:
-    - docs/getting-started*.md
+    - doc/user-guides/secure-protect-connect.md
+
