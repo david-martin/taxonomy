@@ -1,0 +1,35 @@
+created_by: Kuadrant Team
+seed_examples:
+- question: What is Kuadrant?
+  answer: Kuadrant is a cloud-native API management platform that enhances application connectivity, security, and service protection across single and multi-cluster environments using Kubernetes custom resource definitions (CRDs).
+
+- question: What are the main components of Kuadrant's architecture?
+  answer: Kuadrant's architecture consists of control plane components, including the Kuadrant Operator, Limitador Operator, Authorino Operator, and Cert-Manager, as well as data plane components such as Limitador, Authorino, and WASM Shim.
+
+- question: How does Kuadrant manage API rate limiting?
+  answer: Kuadrant manages API rate limiting using Limitador, a data plane component that complies with the Envoy rate limiting API. It enforces rate limiting policies defined in the control plane.
+
+- question: What role does the Kuadrant Operator play?
+  answer: The Kuadrant Operator is responsible for installing and configuring other control plane and data plane components, exposing policy CRDs like RateLimitPolicy and AuthPolicy, and configuring gateways to leverage these policies.
+
+- question: How does Kuadrant integrate with Open Cluster Management (OCM)?
+  answer: Kuadrant integrates with OCM to provide a multi-cluster control plane, enabling the definition and distribution of gateways across multiple clusters. It uses OCM APIs for managing and observing the status of these gateways.
+
+- question: What is the purpose of the Authorino component?
+  answer: Authorino is a data plane component that provides authentication and authorization services, integrating with the Envoy external auth API to secure incoming requests.
+
+- question: How does Kuadrant handle TLS management?
+  answer: Kuadrant handles TLS management through the Cert-Manager, which provides TLS integration for both Kuadrant components and gateways. It manages certificates as defined by TLSPolicy CRDs.
+
+- question: What is the Kuadrant RateLimitPolicy?
+  answer: The Kuadrant RateLimitPolicy is a control plane CRD that defines rate limiting rules for API requests. These policies are enforced by the Limitador component in the data plane.
+
+- question: How does Kuadrant enhance DNS management?
+  answer: Kuadrant enhances DNS management using DNSPolicy CRDs, which are managed by the Multi-Cluster Gateway Controller. It configures DNS providers and supports global load balancing and health checks.
+
+- question: What observability tools does Kuadrant integrate with?
+  answer: Kuadrant integrates with observability tools like Thanos, Prometheus, and Grafana to provide metrics, dashboards, and alerts for monitoring the performance and health of API services.
+
+- question: How can Kuadrant be deployed in a single cluster?
+  answer: In a single cluster deployment, Kuadrant uses the same architecture as multi-cluster deployments, but the hub and spoke roles are combined into a single cluster, simplifying the setup while retaining scalability for future expansion.
+task_description: 'To teach a language model about the kubernetes based Kuadrant project at kuadrant.io'

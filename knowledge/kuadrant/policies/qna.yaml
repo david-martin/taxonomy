@@ -1,5 +1,5 @@
-created_by: kuadrant
-domain: kubernetes
+created_by: Kuadrant Team
+domain: kuadrant.io
 seed_examples:
   - answer: The different types of Kuadrant policies are TLSPolicy, DNSPolicy, AuthPolicy and RateLimitPolicy.
     question: What are the different types of Kuadrant policies?
