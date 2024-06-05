@@ -1,0 +1,211 @@
+created_by: IBM
+seed_examples:
+- answer: '```
+    sum(rate(istio_request_duration_milliseconds_bucket{le="+Inf"}[5m])) -
+    sum(rate(istio_request_duration_milliseconds_bucket{le="5000"}[5m]))
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'I want a graph of requests per minute that are taking longer than 5 seconds'
+- answer: '```
+    sum(rate(istio_requests_total{}[5m])) by (destination_service_name)
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'Give me a query to show the request rate by service name'
+- answer: '```
+    sum(rate(istio_requests_total{}[5m])) by (destination_service_name, response_code)
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'Give me a query to show the request rate, grouped by service name and response code'
+- answer: '```
+    sum(rate(istio_requests_total{response_code=~"4.*|5.*"}[5m])) by (destination_service_name, response_code)
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'I want a query to show the rate of error requests, grouped by service name and response code'
+- answer: '```
+    sum(rate(istio_requests_total{response_code=~"2.*|3.*"}[5m])) by (destination_service_name, response_code)
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'I want a query to show the rate of successful requests, grouped by service name and response code'
+- answer: '```
+    histogram_quantile(0.99, sum(irate(istio_request_duration_milliseconds_bucket{response_code=~"2.*|3.*"}[5m])) by (le, destination_service_name))
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'How do I get the 99th percentile for successful requests'
+- answer: '```
+    histogram_quantile(0.95, sum(irate(istio_request_duration_milliseconds_bucket{response_code=~"2.*|3.*"}[5m])) by (le, destination_service_name))
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'How do I get the 95th percentile for successful requests'
+- answer: '```
+    sum(rate(istio_requests_total{}[5m])) by(request_url_path)
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'How do I show the rate of requests by request path'
+- answer: '```
+    sum (rate(istio_requests_total{}[5m] offset 1h)) by(request_url_path)
+    ```
+    '
+  context: 'The following prometheus metrics are available from Istio:
+
+    - `istio_requests_total` is a `counter`` metric incremented for every request handled by an Istio proxy.
+    - `istio_request_duration_milliseconds` is a `histogram`` metric which measures the duration of requests. As this metric is a histogram, the `istio_request_duration_milliseconds_sum`, `istio_request_duration_milliseconds_count` and `istio_request_duration_milliseconds_bucket` metrics are made available.
+
+    The `istio_request_duration_milliseconds_bucket` metric has the following buckets, measured in milliseconds, that correspond to the `le` label:
+    +Inf, 0.5, 1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 300000, 600000, 1800000, 3600000
+
+    Other important labels include:
+
+    - `destination_service_name` - This identifies the destination service name.
+    - `response_code` - This identifies the response code of the request. This label is present only on HTTP metrics.
+    - `request_url_path` - This identifies the HTTP request path of the request. This label is present only on HTTP metrics.
+
+    Here is a couple of example metrics with these labels:
+
+    - istio_request_duration_milliseconds_bucket{le="100", destination_service_name="toystore", request_url_path="/cars", response_code="200"}
+    - istio_requests_total{destination_service_name="toystore", request_url_path="/cars", response_code="200"}'
+  question: 'How do I show the rate of requests by request path from 1 hour ago'
+task_description: "To teach a language model to generate prometheus promql queries for Istio Gateway metrics from a plain language description of what is required."
