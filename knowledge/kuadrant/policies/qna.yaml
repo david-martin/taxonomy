@@ -1,0 +1,90 @@
+created_by: Kuadrant Team
+domain: kuadrant.io
+seed_examples:
+  - answer: The different types of Kuadrant policies are TLSPolicy, DNSPolicy, AuthPolicy and RateLimitPolicy.
+    question: What are the different types of Kuadrant policies?
+  - answer: |
+      apiVersion: kuadrant.io/v1alpha1
+      kind: DNSPolicy
+      metadata:
+        name: simple-dnspolicy
+        namespace: kuadrant-system
+      spec:
+        routingStrategy: simple
+        targetRef:
+          name: api-gateway
+          group: gateway.networking.k8s.io
+          kind: Gateway
+    question: What does an example DNSPolicy look like?
+  - answer: |
+      apiVersion: kuadrant.io/v1alpha1
+      kind: TLSPolicy
+      metadata:
+        name: api-gateway-tls
+        namespace: kuadrant-system
+      spec:
+        targetRef:
+          name: api-gateway
+          group: gateway.networking.k8s.io
+          kind: Gateway
+        issuerRef:
+          group: cert-manager.io
+          kind: ClusterIssuer
+          name: kuadrant-operator-glbc-ca
+    question: What does an example TLSPolicy look like?
+  - answer: |
+      apiVersion: kuadrant.io/v1beta2
+      kind: RateLimitPolicy
+      metadata:
+        name: infra-ratelimit
+        namespace: kuadrant-system
+      spec:
+        targetRef:
+          name: api-gateway
+          group: gateway.networking.k8s.io
+          kind: Gateway
+        limits:
+          "global":
+            rates:
+            - limit: 5
+              duration: 10
+              unit: second
+    question: What does an example RateLimitPolicy look like?
+  - answer: |
+      apiVersion: kuadrant.io/v1beta2
+      kind: AuthPolicy
+      metadata:
+        name: deny-all
+        namespace: kuadrant-system
+      spec:
+        targetRef:
+          group: gateway.networking.k8s.io
+          kind: Gateway
+          name: api-gateway
+        rules:
+          authorization:
+            deny-all:
+              opa:
+                rego: "allow = false"
+          response:
+            unauthorized:
+              headers:
+                "content-type":
+                  value: application/json
+              body:
+                value: |
+                  {
+                    "error": "Forbidden",
+                    "message": "Access denied by default by the gateway operator. If you are the administrator of the service, create a specific auth policy for the route."
+                  }
+    question: What does an example AuthPolicy look like?
+task_description: "Reference material for the different policies provided by the Kuadrant project from kuadrant.io."
+document:
+  repo: https://github.com/Kuadrant/kuadrant-operator
+  commit: 0e2a9d6fe1dbce7305ce552c945442dbcad9df3a
+  patterns:
+    - doc/reference/*policy.md
+    - doc/auth.md
+    - doc/rate-limiting.md
+    - doc/tls.md
+    - doc/dns.md

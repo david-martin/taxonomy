@@ -1,0 +1,36 @@
+created_by: Kuadrant Team
+domain: kuadrant.io
+seed_examples:
+  - answer: '
+      Kuadrant provides connectivity, security and service protection capabilities in both a single and multi-cluster environment.
+      It exposes these capabilities in the form of Kubernetes CRDs that implement the Gateway API concept of policy attachment.'
+    question: What is Kuadrant?
+  - answer: '
+      Gateway API is a new standard for Ingress from the Kubernetes community.
+      Gateway API is the core API that Kuadrant integrates with.
+      Kuadrant provides Kubernetes CRDs that implement the Gateway API concept of policy attachment.
+      These policy APIs can target specific Gateway API resources such as `Gateways` and `HTTPRoutes` to extend their capabilities and configuration.'
+    question: What is Gateway API?
+  - answer: '
+      Istio is a Gateway API provider that Kuadrant integrates with via WASM and Istio APIS to provide service protection capabilities.
+      Kuadrant configures Envoy via the Istio control plane in order to enforce the applied policies and register components such as Authorino and Limitador.
+      Istio is used by RateLimitPolicy and AuthPolicy Kuadrant resources.'
+    question: What is Istio?
+  - answer: '
+      The components of Kuadrant are categorised as control plane and data plane components.
+      The control plane components are the Kuadrant Operator, Limitador Operator, Authorino Operator, Cert-Manager and DNS Operator.
+      The data plane components are Limitador, Authorino and the WASM Shim.'
+    question: What are the components of Kuadrant?
+  - answer: '
+      There are four policies that Kuadrant exposes.
+      They are RateLimitPolicy, AuthPolicy, DNSPolicy and TLSPolicy.'
+    question: What policies does Kuadrant expose?
+  - answer: '
+      The Kuadrant Operator is responsible for installing and configuring other control plane and data plane components, exposing policy CRDs like RateLimitPolicy and AuthPolicy, and configuring gateways to leverage these policies.'
+    question: What role does the Kuadrant Operator play?
+task_description: "An architecture overview of the Kuadrant project from kuadrant.io."
+document:
+  repo: https://github.com/Kuadrant/architecture.git
+  commit: 20f9487cf2a3db6c2b905b43576fa4eabbd2474b
+  patterns:
+    - docs/design/architectural-overview-v1.md
